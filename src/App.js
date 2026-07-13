@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from "react";
 
 import Navbar from "./components/Navbar/Navbar";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -7,7 +7,21 @@ import ContactList from "./components/ContactList/ContactList";
 import ContactDetails from "./components/ContactDetails/ContactDetails";
 import ContactForm from "./components/ContactForm/ContactForm";
 
+import BASE_URL from "./services/api";
+
 function App() {
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    fetch(BASE_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        setContacts(data);
+      });
+  }, []);
+
+  console.log(contacts);
+
   return (
     <>
       <Navbar />
@@ -30,7 +44,7 @@ function App() {
 
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <ContactList />
+              <ContactList contacts={contacts}/>
             </div>
 
             <ContactDetails />

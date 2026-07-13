@@ -1,12 +1,14 @@
 import ContactCard from "../ContactCard/ContactCard";
 
-function ContactList() {
+function ContactList({ contacts }) {
   return (
     <div className="grid gap-4">
-      <ContactCard />
-      <ContactCard />
-      <ContactCard />
-      <ContactCard />
+      {contacts.map((contact) => (
+        <ContactCard
+          key={contact.id}
+          contact={contact}
+        />
+      ))}
     </div>
   );
 }

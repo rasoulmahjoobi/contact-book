@@ -6,21 +6,21 @@ import {
   FaRegStar,
 } from "react-icons/fa";
 
-function ContactCard() {
+function ContactCard({ contact }) {
   return (
     <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg">
       <div className="flex justify-between">
         <div>
-          <h3 className="font-bold text-lg">Ali Rezaei</h3>
+          <h3 className="font-bold text-lg">{contact.name}</h3>
 
           <p className="flex items-center gap-2 mt-3 text-gray-500">
             <FaPhone />
-            09123456789
+            {contact.phone}
           </p>
 
           <p className="flex items-center gap-2 mt-2 text-gray-500">
             <FaBriefcase />
-            Frontend Developer
+            {contact.job}
           </p>
         </div>
 
