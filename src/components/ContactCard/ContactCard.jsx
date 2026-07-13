@@ -1,0 +1,45 @@
+import {
+  FaPhone,
+  FaBriefcase,
+  FaTrash,
+  FaEdit,
+  FaRegStar,
+} from "react-icons/fa";
+
+function ContactCard() {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg">
+      <div className="flex justify-between">
+        <div>
+          <h3 className="font-bold text-lg">Ali Rezaei</h3>
+
+          <p className="flex items-center gap-2 mt-3 text-gray-500">
+            <FaPhone />
+            09123456789
+          </p>
+
+          <p className="flex items-center gap-2 mt-2 text-gray-500">
+            <FaBriefcase />
+            Frontend Developer
+          </p>
+        </div>
+
+        <button className="cursor-pointer">
+          <FaRegStar className="text-xl text-gray-400 hover:text-yellow-500" />
+        </button>
+      </div>
+
+      <div className="flex justify-end gap-3 mt-5">
+        <button className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-800 cursor-pointer">
+          <FaEdit />
+        </button>
+
+        <button className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-800 cursor-pointer">
+          <FaTrash />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default ContactCard;
