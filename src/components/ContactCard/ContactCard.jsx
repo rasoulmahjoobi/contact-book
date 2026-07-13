@@ -6,7 +6,25 @@ import {
   FaRegStar,
 } from "react-icons/fa";
 
-function ContactCard({ contact }) {
+import BASE_URL from "../../services/api";
+
+function ContactCard({ contact, contacts, setContacts }) {
+  const deleteContact = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this contact?",
+    );
+
+    if (!confirmDelete) return;
+
+    fetch(`${BASE_URL}/${contact.id}`, {
+      method: "DELETE",
+    }).then(() => {
+      const newContacts = contacts.filter((item) => item.id !== contact.id);
+
+      setContacts(newContacts);
+    });
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md p-5 border border-gray-200 hover:shadow-lg">
       <div className="flex justify-between">
@@ -34,7 +52,10 @@ function ContactCard({ contact }) {
           <FaEdit />
         </button>
 
-        <button className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-800 cursor-pointer">
+        <button
+          onClick={deleteContact}
+          className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-800 cursor-pointer"
+        >
           <FaTrash />
         </button>
       </div>

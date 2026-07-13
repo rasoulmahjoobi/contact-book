@@ -20,8 +20,6 @@ function App() {
       });
   }, []);
 
-  console.log(contacts);
-
   return (
     <>
       <Navbar />
@@ -36,15 +34,15 @@ function App() {
 
           <div className="flex gap-4 mb-8">
             <div className="flex-1">
-              <SearchBar />
+              <SearchBar contacts={contacts} setContacts={setContacts}/>
             </div>
 
-            <SortSelect />
+            <SortSelect contacts={contacts} setContacts={setContacts}/>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <ContactList contacts={contacts} />
+              <ContactList contacts={contacts} setContacts={setContacts} />
             </div>
 
             <ContactDetails />
