@@ -13,6 +13,7 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [editingContact, setEditingContact] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -22,7 +23,10 @@ function App() {
       });
   }, []);
 
-  console.log(editingContact);
+  // حساس نبودن به حروف کوچک و بزرگ
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <>
@@ -38,7 +42,12 @@ function App() {
 
           <div className="flex gap-4 mb-8">
             <div className="flex-1">
-              <SearchBar contacts={contacts} setContacts={setContacts} />
+              <SearchBar
+                contacts={contacts}
+                setContacts={setContacts}
+                search={search}
+                setSearch={setSearch}
+              />
             </div>
 
             <SortSelect contacts={contacts} setContacts={setContacts} />
@@ -48,7 +57,7 @@ function App() {
             {/* Left */}
             <div className="lg:col-span-2">
               <ContactList
-                contacts={contacts}
+                contacts={filteredContacts}
                 setContacts={setContacts}
                 setEditingContact={setEditingContact}
                 selectedContact={selectedContact}
