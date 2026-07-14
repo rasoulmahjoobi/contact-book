@@ -1,27 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BASE_URL from "../../services/api";
 
-function ContactForm({ contacts, setContacts }) {
+function ContactForm({
+  contacts,
+  setContacts,
+  editingContact,
+  setEditingContact,
+}) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [job, setJob] = useState("");
 
-  const addContact = (e) => {
+  useEffect(() => {
+    if (editingContact) {
+      setName(editingContact.name);
+      setPhone(editingContact.phone);
+      setJob(editingContact.job);
+    }
+  }, [editingContact]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newContact = {
+    const contactData = {
       name,
       phone,
       job,
-      favorite: false,
+      favorite: editingContact ? editingContact.favorite : false,
     };
 
+    // UPDATE
+    if (editingContact) {
+      fetch(`${BASE_URL}/${editingContact.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contactData),
+      })
+        .then((response) => response.json())
+        .then((updatedContact) => {
+          const updatedContacts = contacts.map((contact) =>
+            contact.id === updatedContact.id ? updatedContact : contact,
+          );
+
+          setContacts(updatedContacts);
+
+          setEditingContact(null);
+
+          setName("");
+          setPhone("");
+          setJob("");
+        });
+
+      return;
+    }
+
+    // ADD
     fetch(BASE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newContact),
+      body: JSON.stringify(contactData),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -32,16 +73,14 @@ function ContactForm({ contacts, setContacts }) {
         setJob("");
       });
   };
-
+  
   return (
     <div className="bg-white rounded-xl shadow p-6 border">
-
       <h2 className="text-xl font-bold mb-6">
-        Add Contact
+        {editingContact ? "Edit Contact" : "Add Contact"}
       </h2>
 
-      <form onSubmit={addContact} className="space-y-4">
-
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           placeholder="Full Name"
@@ -70,11 +109,9 @@ function ContactForm({ contacts, setContacts }) {
           type="submit"
           className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 cursor-pointer"
         >
-          Add Contact
+          {editingContact ? "Update Contact" : "Add Contact"}
         </button>
-
       </form>
-
     </div>
   );
 }
