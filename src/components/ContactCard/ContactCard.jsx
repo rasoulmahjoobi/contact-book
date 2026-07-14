@@ -4,11 +4,35 @@ import {
   FaTrash,
   FaEdit,
   FaRegStar,
+  FaStar,
 } from "react-icons/fa";
 
 import BASE_URL from "../../services/api";
 
 function ContactCard({ contact, contacts, setContacts, setEditingContact }) {
+  const toggleFavorite = () => {
+    const updatedFavorite = !contact.favorite;
+
+    fetch(`${BASE_URL}/${contact.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...contact,
+        favorite: updatedFavorite,
+      }),
+    })
+      .then((response) => response.json())
+      .then((updatedContact) => {
+        const updatedContacts = contacts.map((item) =>
+          item.id === updatedContact.id ? updatedContact : item,
+        );
+
+        setContacts(updatedContacts);
+      });
+  };
+
   const deleteContact = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this contact?",
@@ -42,8 +66,12 @@ function ContactCard({ contact, contacts, setContacts, setEditingContact }) {
           </p>
         </div>
 
-        <button className="cursor-pointer">
-          <FaRegStar className="text-xl text-gray-400 hover:text-yellow-500" />
+        <button onClick={toggleFavorite} className="cursor-pointer">
+          {contact.favorite ? (
+            <FaStar className="text-xl text-yellow-500" />
+          ) : (
+            <FaRegStar className="text-xl text-gray-400 hover:text-yellow-500" />
+          )}
         </button>
       </div>
 
