@@ -1,6 +1,12 @@
 import ContactCard from "../ContactCard/ContactCard";
 
-function ContactList({ contacts, setContacts, setEditingContact }) {
+function ContactList({
+  contacts,
+  setContacts,
+  setEditingContact,
+  selectedContact,
+  setSelectedContact,
+}) {
   return (
     <div className="grid gap-4">
       {contacts.map((contact) => (
@@ -10,6 +16,8 @@ function ContactList({ contacts, setContacts, setEditingContact }) {
           contacts={contacts}
           setContacts={setContacts}
           setEditingContact={setEditingContact}
+          selectedContact={selectedContact}
+          setSelectedContact={setSelectedContact}
         />
       ))}
     </div>

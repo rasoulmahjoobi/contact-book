@@ -12,6 +12,7 @@ import BASE_URL from "./services/api";
 function App() {
   const [contacts, setContacts] = useState([]);
   const [editingContact, setEditingContact] = useState(null);
+  const [selectedContact, setSelectedContact] = useState(null);
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -22,7 +23,6 @@ function App() {
   }, []);
 
   console.log(editingContact);
-  
 
   return (
     <>
@@ -51,12 +51,14 @@ function App() {
                 contacts={contacts}
                 setContacts={setContacts}
                 setEditingContact={setEditingContact}
+                selectedContact={selectedContact}
+                setSelectedContact={setSelectedContact}
               />
             </div>
 
             {/* Right */}
             <div className="space-y-6 lg:sticky lg:top-6 self-start">
-              <ContactDetails />
+              <ContactDetails selectedContact={selectedContact} />
 
               <ContactForm
                 contacts={contacts}
