@@ -13,6 +13,8 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [editingContact, setEditingContact] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -22,7 +24,21 @@ function App() {
       });
   }, []);
 
-  console.log(editingContact);
+  //search & sort
+  // حساس نبودن به حروف کوچک و بزرگ
+  const filteredContacts = contacts.filter((contact) =>
+    (contact.name || "").toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const sortedContacts = [...filteredContacts];
+
+  if (sort === "asc") {
+    sortedContacts.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (sort === "desc") {
+    sortedContacts.sort((a, b) => b.name.localeCompare(a.name));
+  }
 
   return (
     <>
@@ -33,22 +49,32 @@ function App() {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Contacts</h2>
 
-            <span>Total Contacts: 30</span>
+            <span>Total Contacts: {contacts.length}</span>
           </div>
 
           <div className="flex gap-4 mb-8">
             <div className="flex-1">
-              <SearchBar contacts={contacts} setContacts={setContacts} />
+              <SearchBar
+                contacts={contacts}
+                setContacts={setContacts}
+                search={search}
+                setSearch={setSearch}
+              />
             </div>
 
-            <SortSelect contacts={contacts} setContacts={setContacts} />
+            <SortSelect
+              contacts={contacts}
+              setContacts={setContacts}
+              sort={sort}
+              setSort={setSort}
+            />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left */}
             <div className="lg:col-span-2">
               <ContactList
-                contacts={contacts}
+                contacts={sortedContacts}
                 setContacts={setContacts}
                 setEditingContact={setEditingContact}
                 selectedContact={selectedContact}

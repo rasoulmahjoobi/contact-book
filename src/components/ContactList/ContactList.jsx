@@ -7,6 +7,15 @@ function ContactList({
   selectedContact,
   setSelectedContact,
 }) {
+  // اگر هیچ مخاطبی نباشد
+  if (contacts.length === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow p-10 text-center text-gray-500">
+        No contacts found.
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-4">
       {contacts.map((contact) => (
