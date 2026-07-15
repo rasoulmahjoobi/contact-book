@@ -49,7 +49,7 @@ function App() {
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Contacts</h2>
 
-            <span>Total Contacts: 30</span>
+            <span>Total Contacts: {contacts.length}</span>
           </div>
 
           <div className="flex gap-4 mb-8">

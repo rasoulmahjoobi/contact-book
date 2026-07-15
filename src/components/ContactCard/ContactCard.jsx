@@ -53,6 +53,10 @@ function ContactCard({
       const newContacts = contacts.filter((item) => item.id !== contact.id);
 
       setContacts(newContacts);
+
+      if (selectedContact?.id === contact.id) {
+        setSelectedContact(null);
+      }
     });
   };
 
