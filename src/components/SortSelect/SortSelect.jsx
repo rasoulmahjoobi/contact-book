@@ -1,8 +1,13 @@
-function SortSelect() {
+function SortSelect({ sort, setSort }) {
   return (
-    <select className="border rounded-lg px-4 py-3 outline-none focus:border-indigo-500 cursor-pointer">
-      <option>A-Z</option>
-      <option>Z-A</option>
+    <select
+      value={sort}
+      onChange={(e) => setSort(e.target.value)}
+      className="border rounded-lg px-4 py-3 bg-white cursor-pointer"
+    >
+      <option value="">Sort</option>
+      <option value="asc">A - Z</option>
+      <option value="desc">Z - A</option>
     </select>
   );
 }

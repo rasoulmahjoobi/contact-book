@@ -14,6 +14,7 @@ function App() {
   const [editingContact, setEditingContact] = useState(null);
   const [selectedContact, setSelectedContact] = useState(null);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -23,10 +24,21 @@ function App() {
       });
   }, []);
 
+  //search & sort
   // حساس نبودن به حروف کوچک و بزرگ
   const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(search.toLowerCase()),
+    (contact.name || "").toLowerCase().includes(search.toLowerCase()),
   );
+
+  const sortedContacts = [...filteredContacts];
+
+  if (sort === "asc") {
+    sortedContacts.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (sort === "desc") {
+    sortedContacts.sort((a, b) => b.name.localeCompare(a.name));
+  }
 
   return (
     <>
@@ -50,14 +62,19 @@ function App() {
               />
             </div>
 
-            <SortSelect contacts={contacts} setContacts={setContacts} />
+            <SortSelect
+              contacts={contacts}
+              setContacts={setContacts}
+              sort={sort}
+              setSort={setSort}
+            />
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left */}
             <div className="lg:col-span-2">
               <ContactList
-                contacts={filteredContacts}
+                contacts={sortedContacts}
                 setContacts={setContacts}
                 setEditingContact={setEditingContact}
                 selectedContact={selectedContact}
